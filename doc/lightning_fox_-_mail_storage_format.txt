@@ -1,0 +1,105 @@
+LightningFox
+
+Mail Storage Format
+
+2020/02/04, Maya Posch
+
+---
+
+> Overview <
+
+This document describes the email storage format used by LightningFox.
+
+---
+
+> Summary <
+
+The data (settings, account information, emails) used by LightningFox are all stored in SQLite databases. The only exception are attachments, which are stored in their own (account-related) folder for efficiency purposes.
+
+The general structure of files and folders looks as follows:
+
+/
+|-	/data
+|	|-	/accounts
+|	|	|-	/account0
+|	|	|-	|- mail.db
+|	|	|-	|-	/attachments
+|	|	|	|	|-	/<timestamp>
+|	|	|	|	|-	|- attachment0.txt
+|	|	|	|	|
+|	|	|	|	|-	/<timestamp>
+|	|	|	|		|- attachment1.zip
+|	|	|	|	
+|	|	|-	/account1
+|	|	|-	/account2
+|	|	
+|	|- settings.db
+|	
+|- lightingfox.exe
+
+
+The attachment timestamp is the UTC time that the email was sent.
+
+---
+
+> Settings.db <
+
+The structure of the 'settings' SQLite database is as follows:
+
+::Table - accounts ::
+
+id		INTEGER
+name	TEXT
+type	INTEGER
+server	TEXT
+smtp	TEXT
+user	TEXT
+pass	TEXT
+
+Here 'type' is one of the following:
+
+0	- IMAP
+1	- POP3
+
+---
+
+> Mail.db <
+
+The structure of the 'mail' SQLite database is as follows:
+
+::Table - folders ::
+
+id			INTEGER
+name		TEXT
+parent		INTEGER
+
+Here 'parent' is '0' if it's attached to the root folder, else it links to a folder ID.
+
+
+::Table - mail ::
+
+id			INTEGER
+folder_id	INTEGER
+subject		TEXT
+from		TEXT
+to			TEXT
+cc			TEXT
+bcc			TEXT
+date		DATE
+mime		TEXT
+precedence	TEXT
+msg-id		TEXT
+in-reply-to	TEXT
+references	TEXT
+reply-to	TEXT
+sender		TEXT
+archived-at	TEXT
+received	TEXT
+return-path	TEXT
+auth-results	TEXT
+received-spf	TEXT
+dkim-sign	TEXT
+auto-submit	TEXT
+vbr-info	TEXT
+attachments	INTEGER
+
