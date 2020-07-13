@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(quit()));
     
     // Open SQLite database file.
-	if (sqlite3_open("settings.db", settings) != SQLITE_OK) {
+	if (sqlite3_open("settings.db", &settings) != SQLITE_OK) {
 		std::cerr << "Error opening settings database." << std::endl;
 		sqlite3_close(settings);
 		return;
@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 						, name TEXT NOT NULL, type INTEGER NOT NULL, server TEXT, smtp TEXT, \
 						user TEXT, pass TEXT)";
 	char* errmsg = 0;
-	if (sqlite3_exec(settings, query, 0, 0, errmsg) != SQLITE_OK) {
+	if (sqlite3_exec(settings, query.c_str(), 0, 0, &errmsg) != SQLITE_OK) {
 		std::cerr << "SQL error: " << errmsg << std::endl;
 		sqlite3_free(errmsg);
 		sqlite3_close(settings);
@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Read in account and folder information. Create sidebar view, restore last open folder and
     // email.
 	// For each account, create a root item in the sidebar, then attach the account's folders to it.
+	query = "SELECT id, name FROM accounts";
 	
     
     // Perform synchronisation on remote accounts if enabled.
@@ -48,6 +49,18 @@ MainWindow::~MainWindow() {
 	if (settings) {
 		sqlite3_close(settings);
 	}
+}
+
+
+// -- PROCESS ACCOUNT ENTRIES ---
+bool MainWindow::processAccountEntries(void* data, int argc, char* argv[], char* colNames[]) {
+	//
+}
+
+
+// --- PROCESS MAIL ENTRIES ---
+bool MainWindow::processMailEntries(void* data, int argc, char* argv[], char* colNames[]) {
+	//
 }
 
 

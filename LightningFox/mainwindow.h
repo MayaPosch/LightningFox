@@ -24,6 +24,9 @@ private slots:
     void quit();
     
 private:
+	static bool processAccountEntries(void* data, int argc, char* argv[], char* colNames[]);
+	static bool processMailEntries(void* data, int argc, char* argv[], char* colNames[]);
+
     Ui::MainWindow *ui;
 	
 	sqlite3* settings = 0;
