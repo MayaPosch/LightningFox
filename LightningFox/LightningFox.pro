@@ -27,6 +27,11 @@ FORMS += \
 
 TRANSLATIONS += \
     LightningFox_en_US.ts
+	
+LIBS += -lcurl -lnghttp2 -lidn2 -lssh2 -lpsl -lssl -lcrypto -lssl -lcrypto -lcrypt32 -lwldap32 \
+		-lbrotlidec -lbrotlidec -lz -lsqlite3
+
+win32:LIBS += -lgdi32 -lws2_32
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
