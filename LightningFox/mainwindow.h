@@ -24,6 +24,8 @@ private slots:
     void quit();
     
 private:
+	bool updateFolderList();
+	bool updateEmailList();
 	static bool processAccountEntries(void* data, int argc, char* argv[], char* colNames[]);
 	static bool processMailEntries(void* data, int argc, char* argv[], char* colNames[]);
 

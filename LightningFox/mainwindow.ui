@@ -30,18 +30,13 @@
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <widget class="QTreeWidget" name="treeWidget">
+          <widget class="QTreeView" name="emailFolderListView">
            <property name="sizePolicy">
             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <column>
-            <property name="text">
-             <string notr="true">1</string>
-            </property>
-           </column>
           </widget>
           <widget class="QWidget" name="horizontalLayoutWidget">
            <layout class="QHBoxLayout" name="horizontalLayout">
@@ -50,13 +45,7 @@
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
-              <widget class="QTreeWidget" name="treeWidget_2">
-               <column>
-                <property name="text">
-                 <string notr="true">1</string>
-                </property>
-               </column>
-              </widget>
+              <widget class="QTreeView" name="treeView_2"/>
               <widget class="QTextEdit" name="textEdit">
                <property name="readOnly">
                 <bool>true</bool>
