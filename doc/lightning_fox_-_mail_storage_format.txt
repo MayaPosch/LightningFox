@@ -72,8 +72,10 @@ The structure of the 'mail' SQLite database is as follows:
 id			INTEGER
 name		TEXT
 parent		INTEGER
+folded		INTEGER
 
 Here 'parent' is '0' if it's attached to the root folder, else it links to a folder ID.
+Here 'folded' is '0' if the user last opened 'unfolded), else '1'. Default is '0'.
 
 
 ::Table - mail ::
