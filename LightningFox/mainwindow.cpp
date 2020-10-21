@@ -86,19 +86,46 @@ bool MainWindow::processAccountEntries(void* data, int argc, char* argv[], char*
 	// argv		- Arguments.
 	// colNames	- Column names for the arguments.
 	
+	// Ensure we have a valid folder path.
+	
+	
+	// Ensure there is a valid 'mail.db' database in the target folder.
+	
+	
 	QStandardItem* parentItem = (QStandardItem*) data;
 	
 	// Open the account's 'mail.db' SQLite database and read the folders for that account.
-	// Add each folder to the folder list model.
+	sqlite3* mail = 0;
+	if (sqlite3_open("accounts/" + colNames[1] + "/mail.db", &mail) != SQLITE_OK) {
+		std::cerr << "Error opening " + colNames[1] + " mail database." << std::endl;
+		sqlite3_close(mail);
+		return;
+	}
 	
-	// Open the SQLite database.
-	// Read the folder id and name as well as the folded state. Add each folder to the 
+	std::string query;
+	query = "SELECT id, name, parent, folded FROM folders";
+	if (sqlite3_exec(mail, query.c_str(), &MainWindow::processMailEntries, (void*) parentItem, &errmsg) != SQLITE_OK) {
+		std::cerr << "SQL error: " << errmsg << std::endl;
+		sqlite3_free(errmsg);
+		sqlite3_close(mail);
+		return false;
+	}
 }
 
 
 // --- PROCESS MAIL ENTRIES ---
 bool MainWindow::processMailEntries(void* data, int argc, char* argv[], char* colNames[]) {
-	//
+	// Add each folder to the folder list model.
+	QStandardItem* parentItem = (QStandardItem*) data;
+	QStandardItem* item = new QStandardItem(colNames[1]);
+	parentItem->appendRow(item);
+	
+	// TODO: handle fold state.
+	// If 'folded' is 0, children are visible (unfolded).
+	
+	
+	// If parent is >0, attach to parent.
+	
 }
 
 
